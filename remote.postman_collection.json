@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "cc4e9c5a-97f8-473b-b645-bea5d1480e91",
+		"name": "remote",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25446589",
+		"_collection_link": "https://restless-zodiac-896079.postman.co/workspace/Team-Workspace~c585004d-554b-4468-853e-45c50d9dac21/collection/25446589-cc4e9c5a-97f8-473b-b645-bea5d1480e91?action=share&creator=25446589&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "order books Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"chec status code\",()=>{\r",
+							"\r",
+							"    pm.expect(pm.response.code).eq(201);\r",
+							"\r",
+							"});\r",
+							"var jsondata=JSON.parse(responseBody);\r",
+							"\r",
+							"pm.environment.set(\"orderid_env\",jsondata.orderId);\r",
+							"\r",
+							"console.log(\"Id \"+  pm.environment.get(\"orderid_env\") );"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "49a41c19a0d4cb535cf2353181a6b3a2d82944bc0fc73e9c7af4ff304a3e4e68",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"bookId\":1,\r\n\"customerName\": \"john\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://simple-books-api.glitch.me/orders",
+					"protocol": "https",
+					"host": [
+						"simple-books-api",
+						"glitch",
+						"me"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a single order Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check order is created successfully\",()=>{\r",
+							"\r",
+							"pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"console.log|(\"id 1 :\"+pm.environment.get(\"orderid_env\"));\r",
+							"pm.test(\"Check same order id or not \",()=>{\r",
+							"\r",
+							"\r",
+							"    var jsondata=pm.response.json();\r",
+							"    pm.expect(jsondata.id).to.eq(pm.environment.get(\"orderid_env\"));\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "49a41c19a0d4cb535cf2353181a6b3a2d82944bc0fc73e9c7af4ff304a3e4e68",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://simple-books-api.glitch.me/orders/{{orderid_env}}",
+					"protocol": "https",
+					"host": [
+						"simple-books-api",
+						"glitch",
+						"me"
+					],
+					"path": [
+						"orders",
+						"{{orderid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete order Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"order deleted \",()=>{\r",
+							"\r",
+							"pm.response.to.have.status(204);\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.environment.unset(\"orderid_env\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "49a41c19a0d4cb535cf2353181a6b3a2d82944bc0fc73e9c7af4ff304a3e4e68",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://simple-books-api.glitch.me/orders/{{orderid_env}}",
+					"protocol": "https",
+					"host": [
+						"simple-books-api",
+						"glitch",
+						"me"
+					],
+					"path": [
+						"orders",
+						"{{orderid_env}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
